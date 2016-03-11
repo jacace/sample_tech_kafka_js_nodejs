@@ -8,7 +8,7 @@ var express=require('express'),
 app.set('views','views');
 app.set('view engine','jade');
 
-app.get('/', function(req, res)){
+app.get('/', function(req, res){
 	res.render('home',{
 	});
 });
