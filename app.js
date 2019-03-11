@@ -1,4 +1,4 @@
-//sample node.js web app for trying out
+//Node.js sample web app for testing CircleCI
 
 'use strict';
 
