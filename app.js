@@ -3,7 +3,7 @@
 'use strict';
 
 var express=require('express'),
-	app=express();
+app=express();
 
 app.set('views','views');
 app.set('view engine','jade');
