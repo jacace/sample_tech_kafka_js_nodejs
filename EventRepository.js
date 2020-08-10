@@ -4,8 +4,22 @@ class EventRepository {
 		this.initData = initData;
 	}
 
-	sendEvent() {
-
+	sendEvent(destTopic, eventData) {
+		var producer = new Kafka.Producer();
+		return producer.init().then(function () {
+			return producer.send({
+				topic: destTopic,
+				partition: 0,
+				message: {
+					value: eventData
+				}
+			});
+		})
+			.then(function (result) {
+				/*
+				[ { topic: $destTopic, partition: 0, offset: 353 } ]
+				*/
+			});
 	}
 
 	getTopics(eventType) {
