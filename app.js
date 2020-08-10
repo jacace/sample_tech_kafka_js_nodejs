@@ -15,10 +15,8 @@ app.get('/', function (req, res) {
 });
 
 app.post('/', function (req, res) {
-
 	let eventType = req.body.eventtype;	
 	let eventData = req.body.eventdata;
-
 	//Note: In real life the EndPoint is retrieved from a Service Registry
 	//      not from with a switch like below :)
 	switch (eventType) {
