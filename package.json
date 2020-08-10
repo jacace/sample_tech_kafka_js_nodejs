@@ -6,10 +6,10 @@
 	"main": "app.js",
 	"author": "@jacace",
 	"license": "MIT",
-	"dependencies":{
+	"dependencies": {
 		"express": "^4.17.1",
-		"jade": "1.11.0",
-		"mocha": "1.20.1",
-		"supertest": "1.1.0"
+		"jade": "^1.11.0",
+		"mocha": "^8.1.1",
+		"supertest": "^4.0.2"
 	}
 }
