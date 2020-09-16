@@ -16,10 +16,10 @@ const kafka = new Kafka({
 	},
 })
 
-const consumer = kafka.consumer({ groupId: 'confluent_cli_consumer_c5c808c6-c86b-48d8-9390-317df319cc55' })
+const consumer = kafka.consumer({ groupId: process.env.groupid })
 consumer.connect()
 consumer.subscribe({
-	topic: 'request_vpc_deployment', fromBeginning: true
+	topic: process.env.topic, fromBeginning: true
 })
 
 //kafka init ends
