@@ -2,30 +2,46 @@
 
 'use strict';
 
-//kafka init starts
-const { Kafka } = require('kafkajs')
+//Load configuration fron .env file
+require('dotenv').config()
 
+//kafka init starts
+
+const { Kafka } = require('kafkajs')
 const kafka = new Kafka({
-	clientId: 'my-app',
-	brokers: [ process.env.main_broker ],	
+	clientId: process.env.consumerid, //this is used by Kafka to identify the currently ACTIVE consumers of a particular consumer group
+	brokers: [ process.env.bootstrapservers ],	
 	ssl: true,
 	sasl: {
-		mechanism: process.env.sasl,
-		username:  process.env.kafkaapikey,
-		password:  process.env.kafkaapisecret
+		mechanism: process.env.saslmechanisms,
+		username:  process.env.saslusername,
+		password:  process.env.saslpassword
 	},
-})
-
-const consumer = kafka.consumer({ groupId: process.env.groupid })
-consumer.connect()
-consumer.subscribe({
-	topic: process.env.topic, fromBeginning: true
 })
 
 //kafka init ends
 
 
-//kafka business logic starts
+//consumer starts
+
+const consumer = kafka.consumer({ groupId: process.env.groupid }) //If the Consumer Group does not already exist, one will be automatically created.
+consumer.connect()
+consumer.subscribe({
+	topic: process.env.topic, fromBeginning: true
+})
+
+consumer.run({
+	eachMessage: async ({ topic, partition, message }) => {
+		console.log({
+			value: message.value.toString(),
+		})
+	},
+})
+
+//consumer end
+
+
+/*kafka producer starts
 
 const producer = kafka.producer()
 producer.send({
@@ -39,15 +55,7 @@ producer.send({
 	],
 })
 
-consumer.run({
-	eachMessage: async ({ topic, partition, message }) => {
-		console.log({
-			value: message.value.toString(),
-		})
-	},
-})
-
-//kafka business logic ends
+/kafka producer ends*/
 
 
 var express = require('express');
