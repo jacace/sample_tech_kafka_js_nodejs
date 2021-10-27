@@ -1,4 +1,4 @@
-//Sample NodeJS app to illustrate design pattern
+//Sample NodeJS app to illustrate kafka consumer/producer in nodejs
 
 'use strict';
 
@@ -25,19 +25,24 @@ const kafka = new Kafka({
 
 //consumer starts
 
-const consumer = kafka.consumer({ groupId: process.env.groupid }) //If the Consumer Group does not already exist, one will be automatically created.
-consumer.connect()
-consumer.subscribe({
-	topic: process.env.topicin, fromBeginning: true
-})
+const run = async () => {
+	const consumer = kafka.consumer({ groupId: process.env.groupid }) //If the Consumer Group does not already exist, one will be automatically created.
+	await consumer.connect();
 
-consumer.run({
-	eachMessage: async ({ topic, partition, message }) => {
-		console.log({
-			value: message.value.toString(),
-		})
-	},
-})
+	await consumer.subscribe({
+		topic: process.env.topicin, fromBeginning: true
+	})
+
+	await consumer.run({
+		eachMessage: async ({ topic, partition, message }) => {
+			console.log({
+				value: message.value.toString(),
+			})
+		},
+	})
+}
+
+run().catch(e => console.log(`[example/consumer] ${e.message}`, { stack: e.stack }))
 
 //consumer end
 
@@ -59,6 +64,8 @@ producer.send({
 
 var express = require('express');
 var app = express();
+app.set('view engine', 'jade');
+
 
 app.get('/', function (req, res) {
 	res.render('home', {
