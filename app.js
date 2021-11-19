@@ -46,6 +46,24 @@ run().catch(e => console.log(`[example/consumer] ${e.message}`, { stack: e.stack
 
 //consumer end
 
+//app dynamics starts
+
+require("appdynamics").profile({
+	controllerHostName: '.saas.appdynamics.com',
+	controllerPort: 443,
+
+	// If SSL, be sure to enable the next line
+	controllerSslEnabled: true,
+	accountName: '',
+	accountAccessKey: '',
+    applicationName: 'observability-app-demo',
+    tierName: 'api-server',
+	nodeName: 'process' // The controller will automatically append the node name with a unique number
+});
+
+//app dynamicss ends
+
+
 
 /*/kafka producer starts
 const producer = kafka.producer()
